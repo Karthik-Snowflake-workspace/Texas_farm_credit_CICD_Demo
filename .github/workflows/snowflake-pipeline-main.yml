@@ -1,0 +1,43 @@
+name: "Snowflake Component: Progression Target - main"
+on:
+  workflow_call:
+    inputs:
+      action_type:
+        required: true
+        type: string
+
+permissions:
+  id-token: write
+  contents: read
+
+env:
+  SNOWFLAKE_ACCOUNT: "KIPI-KIPI_PRIMARY"
+  SNOWFLAKE_USER: "github_texas_farm_credit_cicd_demo_main_user"
+  SNOWFLAKE_ROLE: "PSEUDO_ACCOUNTADMIN"
+  SNOWFLAKE_WAREHOUSE: "github_cicd_demo_wh"
+  SNOWFLAKE_CLI_FEATURES_ENABLE_SNOWFLAKE_PROJECTS: "true"
+  SNOWFLAKE_DATABASE: "TEXAS_FARM_CREDIT_CICD_DEMO_DEVOPS_DB_main"
+  SNOWFLAKE_SCHEMA: "Data"
+
+jobs:
+  main-environment-execution:
+    runs-on: ubuntu-latest
+    environment: main 
+    steps:
+      - uses: actions/checkout@v4
+
+      - if: inputs.action_type == 'plan'
+        name: "DCM Plan — Dry-run against MAIN target only"
+        uses: ./.github/workflows/modules/action-dcm-engine
+        with:
+          dcm_dir: "dcm_texas_farm_credit_cicd_demo"
+          dcm_target: "TEXAS_FARM_CREDIT_CICD_DEMO_DCM_main"
+          action_type: "plan"
+
+      - if: inputs.action_type == 'deploy'
+        name: "DCM Deploy — Apply changes to MAIN target only"
+        uses: ./.github/workflows/modules/action-dcm-engine
+        with:
+          dcm_dir: "dcm_texas_farm_credit_cicd_demo"
+          dcm_target: "TEXAS_FARM_CREDIT_CICD_DEMO_DCM_main"
+          action_type: "deploy"
