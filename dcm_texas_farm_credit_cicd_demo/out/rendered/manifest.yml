@@ -1,0 +1,62 @@
+manifest_version: 2
+type: DCM_PROJECT
+default_target: TEXAS_FARM_CREDIT_CICD_DEMO_DCM_METADATA
+targets:
+  TEXAS_FARM_CREDIT_CICD_DEMO_DCM_METADATA:
+    account_identifier: KIPI-KIPI_PRIMARY
+    project_name: TEXAS_FARM_CREDIT_CICD_DEMO_CICD_METADATA.DCM_CONFIG.DCM_TEXAS_FARM_CREDIT_CICD_DEMO_DCM_PROJECT
+    project_owner: PSEUDO_ACCOUNTADMIN
+    templating_config: dcm_project
+  TEXAS_FARM_CREDIT_CICD_DEMO_DCM_dev:
+    account_identifier: KIPI-KIPI_PRIMARY
+    project_name: TEXAS_FARM_CREDIT_CICD_DEMO_CICD_METADATA.DCM_CONFIG.DCM_TEXAS_FARM_CREDIT_CICD_DEMO_DEV
+    project_owner: PSEUDO_ACCOUNTADMIN
+    templating_config: dev
+  TEXAS_FARM_CREDIT_CICD_DEMO_DCM_main:
+    account_identifier: KIPI-KIPI_PRIMARY
+    project_name: TEXAS_FARM_CREDIT_CICD_DEMO_CICD_METADATA.DCM_CONFIG.DCM_TEXAS_FARM_CREDIT_CICD_DEMO_MAIN
+    project_owner: PSEUDO_ACCOUNTADMIN
+    templating_config: main
+templating:
+  defaults:
+    project_owner_role: PSEUDO_ACCOUNTADMIN
+    warehouse: github_cicd_demo_wh
+  configurations:
+    dcm_project:
+      environment: dcm_project
+      env_suffix: _dcm_project
+      database: TEXAS_FARM_CREDIT_CICD_DEMO_CICD_METADATA
+      schemas:
+      - DCM_CONFIG
+      project_name: TEXAS_FARM_CREDIT_CICD_DEMO_CICD_METADATA.DCM_CONFIG.DCM_TEXAS_FARM_CREDIT_CICD_DEMO_DCM_PROJECT
+      project_owner: PSEUDO_ACCOUNTADMIN
+      roles:
+        DBA_ADMIN: DBA_ADMIN
+        DBA_FR: DBA_FR
+      is_default_target: true
+    dev:
+      environment: dev
+      env_suffix: _dev
+      database: TEXAS_FARM_CREDIT_CICD_DEMO_DEVOPS_DB_dev
+      schemas:
+      - Data
+      - Source
+      project_name: TEXAS_FARM_CREDIT_CICD_DEMO_CICD_METADATA.DCM_CONFIG.DCM_TEXAS_FARM_CREDIT_CICD_DEMO_DEV
+      project_owner: PSEUDO_ACCOUNTADMIN
+      roles:
+        DBA_ADMIN: DBA_ADMIN
+        DBA_FR: DBA_FR
+      is_default_target: false
+    main:
+      environment: main
+      env_suffix: _main
+      database: TEXAS_FARM_CREDIT_CICD_DEMO_DEVOPS_DB_main
+      schemas:
+      - Data
+      - Source
+      project_name: TEXAS_FARM_CREDIT_CICD_DEMO_CICD_METADATA.DCM_CONFIG.DCM_TEXAS_FARM_CREDIT_CICD_DEMO_MAIN
+      project_owner: PSEUDO_ACCOUNTADMIN
+      roles:
+        DBA_ADMIN: DBA_ADMIN
+        DBA_FR: DBA_FR
+      is_default_target: false
